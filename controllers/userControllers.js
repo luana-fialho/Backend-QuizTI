@@ -9,7 +9,7 @@ exports.cadastro = (req, res) => {
   const sql = `insert into jogador (nome, idade, genero) values (?, ?, ?)`;
   db.query(sql, [nome, idade, genero], (err, result) => {
     if (err) {
-      console.log("Erro ao cadastrar usuario: ", err);
+      console.error("Erro ao cadastrar usuario: ", err);
       return res.status(500).json({ error: "Erro ao cadastrar usuário." });
     }
     res.status(201).json({
