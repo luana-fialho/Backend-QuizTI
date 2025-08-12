@@ -1,29 +1,34 @@
 const db = require("../db/database");
 
-const estadoCategoria = {};
-
 exports.buscarPergunta = (req, res) => {
   const { categoria } = req.body;
-  const sql = `select p.id AS pergunta_id,
-  p.titulo,
-  p.enunciado,
-  p.autor,
-  p.resposta,
-  p.imagem,
-  p.nivel,
-  p.categoria,
-  p.data,
-  p.validada,
-  a.id_pergunta,
-  a.id AS alternativa_id,
-  a.texto,
-  a.letra from perguntas p join alternativas a on p.id = a.id_pergunta where p.categoria = ?`;
+  const sql = `
+    SELECT 
+      p.id AS pergunta_id,
+      p.titulo,
+      p.enunciado,
+      p.autor,
+      p.resposta,
+      p.imagem,
+      p.nivel,
+      p.categoria,
+      p.data,
+      p.validada,
+      a.id_pergunta,
+      a.id AS alternativa_id,
+      a.texto,
+      a.letra 
+    FROM perguntas p 
+    JOIN alternativas a ON p.id = a.id_pergunta 
+    WHERE p.categoria = ?
+  `;
 
   db.query(sql, [categoria], (err, results) => {
     if (err) {
       console.error("Erro ao encontrar pergunta ", err);
-      return res.status(500).json({ error: "Erro ao buscar pergunta." });
+      return res.status(500).json({ error: "Erro ao buscar perguntas." });
     }
+
     if (results.length === 0) {
       return res.status(404).json({ error: "Nenhuma pergunta encontrada." });
     }
@@ -56,15 +61,7 @@ exports.buscarPergunta = (req, res) => {
 
     const perguntas = Object.values(perguntasMap);
 
-    if (!estadoCategoria[categoria]) {
-      estadoCategoria[categoria] = 0;
-    }
-
-    const index = estadoCategoria[categoria];
-    const pergunta = perguntas[index];
-
-    estadoCategoria[categoria] = (index + 1) % perguntas.length;
-
-    res.status(201).json(pergunta);
+    // Aqui tá o pulo do gato: você envia TODAS!
+    res.status(200).json(perguntas);
   });
 };
