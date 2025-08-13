@@ -1,4 +1,4 @@
-const db = require("../db/database");
+const db = require("../db/database").default;
 
 exports.cadastro = (req, res) => {
   const { nome, idade, genero } = req.body;
