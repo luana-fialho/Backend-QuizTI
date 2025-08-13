@@ -50,6 +50,7 @@ DB_NAME=nome_banco (ex: quizti)
 
 ### Frontend
 Acesse o link para clonar o repositório do front-end
+https://github.com/luana-fialho/Frontend-QuizTI
 
 ## Rodando o projeto
 
