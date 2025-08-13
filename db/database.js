@@ -14,6 +14,10 @@ const db = mysql.createConnection({
 db.connect((err) => {
   if (err) {
     // Se ocorrer um erro na conexão, exibe mensagem de erro no console
+    console.log("DB_HOST =", process.env.DB_HOST);
+    console.log("DB_USER =", process.env.DB_USER);
+    console.log("Tentando conectar ao banco...");
+
     console.error("Erro ao conectar no banco de dados:", err);
   } else {
     // Se conectar com sucesso, exibe mensagem de sucesso no console
