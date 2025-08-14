@@ -1,4 +1,4 @@
-const db = require("../db/database").default;
+const pool = require("../db/pool").default;
 
 exports.cadastro = (req, res) => {
   const { nome, idade, genero } = req.body;
@@ -7,7 +7,7 @@ exports.cadastro = (req, res) => {
   }
 
   const sql = `insert into jogador (nome, idade, genero) values (?, ?, ?)`;
-  db.query(sql, [nome, idade, genero], (err, result) => {
+  pool.query(sql, [nome, idade, genero], (err, result) => {
     if (err) {
       console.error("Erro ao cadastrar usuario: ", err);
       return res.status(500).json({ error: "Erro ao cadastrar usuário." });

@@ -1,4 +1,4 @@
-const db = require("../db/database");
+const pool = require("../db/pool");
 
 exports.buscarPergunta = (req, res) => {
   const { categoria } = req.body;
@@ -23,9 +23,10 @@ exports.buscarPergunta = (req, res) => {
     WHERE p.categoria = ?
   `;
 
-  db.query(sql, [categoria], (err, results) => {
+  // Aqui usamos pool.query direto, sem connect() nem end()
+  pool.query(sql, [categoria], (err, results) => {
     if (err) {
-      console.error("Erro ao encontrar pergunta ", err);
+      console.error("Erro ao encontrar pergunta", err);
       return res.status(500).json({ error: "Erro ao buscar perguntas." });
     }
 
@@ -60,8 +61,6 @@ exports.buscarPergunta = (req, res) => {
     });
 
     const perguntas = Object.values(perguntasMap);
-
-    // Aqui tá o pulo do gato: você envia TODAS!
     res.status(200).json(perguntas);
   });
 };
