@@ -11,7 +11,11 @@ const resultsRoutes = require("./routes/results.js");
 
 const PORT = process.env.PORT || 8080;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://frontend-quiz-ti.vercel.app",
+  })
+);
 app.use(express.json());
 
 app.use("/user", userRoutes);
